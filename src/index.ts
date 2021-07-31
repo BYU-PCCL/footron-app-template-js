@@ -1,18 +1,18 @@
+import {Messaging} from "../../footron-messaging-js/src"
 // (base: https://www.typescriptlang.org/play/)
 
-class Greeter {
-  greeting: string;
-  constructor(message: string) {
-    this.greeting = message;
-  }
-  greet(): string {
-    return `Hello, ${this.greeting}`;
-  }
+var messaging = new Messaging();
+
+function messageHandler(message: any){
+  console.log(message);
 }
 
-const greeter = new Greeter("world");
+async function mainLoop(){
+  console.log("hello!");
+  messaging.mount();
+  messaging.addMessageListener(messageHandler);
+  console.log("hello");
+  setInterval(() => messaging.sendMessage(new Date().getTime()), 500);
+}
 
-const button = document.getElementById('myButton')!;
-button.onclick = () => {
-  alert(greeter.greet());
-};
+window.addEventListener('load', () => mainLoop());
